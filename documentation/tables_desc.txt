@@ -1,0 +1,25 @@
++------------+-----------+------+-----+---------+----------------+
+| Field      | Type      | Null | Key | Default | Extra          |
++------------+-----------+------+-----+---------+----------------+
+| id         | int(11)   | NO   | PRI | NULL    | auto_increment |
+| app_id     | int(11)   | YES  |     | NULL    |                |
+| app_name   | char(100) | YES  |     | NULL    |                |
+| app_env    | text      | YES  |     | NULL    |                |
+| app_submit | text      | YES  |     | NULL    |                |
+| app_dag    | text      | YES  |     | NULL    |                |
+| app_master | int(11)   | YES  | MUL | NULL    |                |
+| app_driver | int(11)   | YES  | MUL | NULL    |                |
++------------+-----------+------+-----+---------+----------------+
+
+
+Sources:
+app_id: /application?status=running
+app_submit: modified ./bin/spark-submit.sh (to implement)
+app_name: /application/[app_id]/
+app_env: /application/[app_id]/environment (to implement)
+app_dag: hook from hacked Spark
+app_master: from environment (master is the node where the cluster manager runs)
+app_driver: from environment (driver is the node where the program executing application's main() is
+            executing)
+
+

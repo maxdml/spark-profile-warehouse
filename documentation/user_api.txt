@@ -1,0 +1,36 @@
+Proposal for warehouse API:
+
+app:
+get_application(app_id)
+get_application_events(app_id, event_id, event_source)
+get_application_metrics(app_id, metric_id, metric_source, metric_type)
+get_application_status(id, timestamp)
+
+job:
+get_job(app_id, job_id)
+get_job_events(app_id)
+get_job_metrics(app_id)
+get_job_status(id, timestamp)
+
+stage:
+get_stage(app_id, job_id, stage_id)
+get_stage_events(app_id)
+get_stage_metrics(app_id)
+get_stage_status(id, timestamp)
+
+task:
+get_task(app_id, job_id, stage_id, task_id)
+get_task_events(app_id)
+get_task_metrics(app_id)
+get_task_status(id, timestamp)
+
+metric:
+set_metric(metric_id, metric_name, metric_unit, submetrics[id_submetric_a, id_submetric_b], submetric_operator)
+
+container:
+get_container_metric(id, timestamp, metric_id)
+get_container_status(id, timestamp)
+
+pnode:
+
+

@@ -1,0 +1,108 @@
+\documentclass[12pt,twocolumn]{article}
+
+\usepackage[top=1.25in, bottom=1.25in, left=0.5in, right=0.5in]{geometry}
+
+\title{Proposal specification for an Analytic Cluster profile warehouse}
+
+\begin{document}
+
+\section{Motivations}
+  Composing and configuring a data analytic cluster requires a strong domain expertise which hinders
+  practicle and efficient usage of the system for standard users. Gathering data about
+  clusters and application life cycle is a necessary step toward more advanced automation techniques
+  and supporting users in their choices.
+  \par
+  This document presents an architecture for a profiling warehouse, where we store efficiently
+  monitoring data about the cluster and hosted applications. We encourage the use of standard
+  monitoring tools such as [...], and define which data should be gathered, from resource managers
+  to computing executors, as well as network and storage tiers. We focus on profiling Apache Spark,
+  as it is a popular example of Distributed Computing framework.
+
+\section{What to profile}
+  In a standard distributed system setup, one needs to monitor each element of the cluster, as well
+  as the running applications. In a distributed computing cluster, this means monitoring
+  Operating Systems as well as applications such as the storage tiers \footnote{Usually a distributed
+  file system is running on the same nodes than the compute program}, and the distributed computing
+  framework.
+
+  \subsection{Operating System behaviors}
+    Monitoring systems such as Nagios can gather information about OS' memory, cpu, and bandwidth
+    usage. Such systems are also easily extensible through modules. Varying factors such as the
+    type of monitoring will impact performances (e.g. agentless monitoring, protocol used, etc)
+
+  \subsection{Application behaviors}
+    Data analytic frameworks such as Hadoop and Spark usually run a resource manager (e.g. YARN),
+    which receives resource requests from an application master. The master then contact executor
+    nodes and decides where each task must run. We enumerate valuable information to be gathered,
+    as well as their source.
+    \begin{itemize}
+      \item Resource manager logs
+        \begin{itemize}
+          \item Errors
+          \item Resource requests handling
+          \item ...
+        \end{itemize}
+      \item Framework logs
+      \begin{itemize}
+        \item Master/Driver logs
+        \item Executor logs (containers)
+        \item application logs / event log
+        \item Instrumentation logs (if present)
+      \end{itemize}
+      \item Distributed FileSystem logs (HDFS)
+    \end{itemize}
+
+  \subsection{Query plan}
+    In addition to native and instrumentation logs, we modify Spark to allow the gathering of
+    DAGs only, without execution.
+
+\section{Implementation constraints}
+  \subsection{Storage}
+  Varying with the amount of data manipulated, the number of users, and frameworks variety, the
+  number of monitored data can quickly become voluminous. It is important to maintain a rigorous
+  organization regarding the period and format of the stored data. We strongly advocate the use
+  of Round Robin Databases to organize time series. Such storage allows to specify the
+  granularity of data (e.g. store CPU usage data points every hours during a day, or every day
+  during a week, etc).
+  \par
+  Some data may not fit the RRD model (such as application log), but the same methodology can be
+  engineered for them (store in plain text all logs for the day, then compress them for the rest
+  of the week. Then migrate the weekly data on a remote storage, etc).
+  \par
+  \par
+  Data related to application execution, such as performance metrics, errors, environment details,
+  can be stored in a structured database such as MariaDB. We organize that database around the DAG
+  of an application. [reference to schema in annex comes here]
+
+  \subsection{Monitoring performances}
+  By no mean extracting data can harm performances for existing application. This might be tricky
+  as some log files can weight hundreds of MB. Compression and timely shipping must be done at
+  strategic times (and if possible, pinned to spare resources dedicated to the OS).
+  \par
+  [In this chapter are described those various techniques]
+
+\section{Warehouse API}
+  The warehouse provides ways for user to plot graphs, get statistics, and plug more advanced
+  analytic and machine learning modules. Are presented bellow a few features of such warehouse API.
+
+  \subsection{Refining the data}
+    Some key performance statistic functions should be available, in order to let users quickly get
+    hands on metrics such as average memory consumption, ratio of time spent in garbage collection
+    over running time, and so on. Some of those data are readily available from Spark, but some other
+    must be compiled from the warehouse. 
+  \subsection{Correlating the data}
+    Critical behaviors can be revealed by associating multiple monitoring data, for example cpu
+    consumption and amount of time where an application was blocked, waiting for data. Another
+    example is the correlation between errors (from the framework(s), the system, or physical
+    devices) and application performances. The warehouse API allow user to create custom metric
+    association and retrieve them.
+  \subsection{Building application models}
+    Further modeling, used for machine learning techniques, can exploit an application's DAG to
+    find similarities with other. Such modeling is useful when building recommendation systems,
+    automatic provisioning and configuration engines, historical analysis, or resource pricing.
+
+\section{Architecture proposal}
+
+  {\itshape Todo: detail this layer -- data gathering, storage, etc}
+
+\end{document}
