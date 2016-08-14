@@ -30,6 +30,12 @@ if len(sys.argv) < 2:
 
 utils  = pw_utils()
 params = utils.flattenList(sys.argv[1:])
+cmd = ['/home/max/codeZ/SPARK/spark-1.6.2-bin-hadoop2.6/bin/spark-submit'] + params
 
 # Run spark-submit in the background
-subprocess.call(['/home/max/codeZ/SPARK/spark-1.6.2-bin-hadoop2.6', str(params)])
+output = open('/tmp/toto', 'r+')
+p = subprocess.Popen(cmd, stdout=output, stderr=subprocess.STDOUT)
+output.close()
+#q = subprocess.call(['cat', '/home/max/monitor.html'])
+
+# Query the API to register the new application in the DB
