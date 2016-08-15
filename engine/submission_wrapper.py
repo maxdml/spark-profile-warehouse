@@ -15,9 +15,13 @@
 
 # Copyright (C) <2016>  <Henri Maxime Demoulin>
 
-#TODO: setup a configuration file (SPARK_HOME, etc)
+#
+# TODO: Handle errors with try catch when needed / worthy (performance wise)
 
 import sys
+import os
+import json
+import requests
 import subprocess
 from pw_utils import *
 
@@ -28,14 +32,59 @@ if len(sys.argv) < 2:
     print('Usage: python submission_wrapper.py ' + sample)
     exit(1)
 
+# Load configuration
+config    = {}
+conf_file = os.getcwd() + '/config.json'
+conf_desc = open(conf_file, 'r')
+
+for line in conf_desc.readlines():
+    j = json.loads(line)
+    config.update(j)
+
+conf_desc.close()
+
+SPARK_HOME   = config['spark_home']
+SPARK_SUBMIT = SPARK_HOME + '/bin/spark-submit'
+SPARK_MASTER = config['spark_master']
+SPARK_API    = SPARK_MASTER + '/api/v1/'
+
 utils  = pw_utils()
 params = utils.flattenList(sys.argv[1:])
-cmd = ['/home/max/codeZ/SPARK/spark-1.6.2-bin-hadoop2.6/bin/spark-submit'] + params
+cmd = [SPARK_SUBMIT] + params
 
 # Run spark-submit in the background
-output = open('/tmp/toto', 'r+')
+# TODO: later on we might want to allow remote runs by using the API
+output = open('/tmp/toto', 'w+')
+print('Submitting Spark application...')
 p = subprocess.Popen(cmd, stdout=output, stderr=subprocess.STDOUT)
 output.close()
 #q = subprocess.call(['cat', '/home/max/monitor.html'])
 
-# Query the API to register the new application in the DB
+# Query the API to retrieve new application's details
+print('Retrieving application details...')
+applications = requests.get(SPARK_API + 'applications')
+
+#
+# TODO: We actually use a very naive way of retrieving an application (pick the last one which
+#       name match the submitted class name.
+
+#
+# TODO: implement https://issues.apache.org/jira/browse/SPARK-16122 to get environment through API
+
+new_app = {}
+new_app['app_submit'] = ' '.join(params)
+new_app['app_id']     = applications.json()[0]['id']
+new_app['app_name']   = applications.json()[0]['name']
+new_app['app_master'] = SPARK_MASTER
+
+new_app_executors = requests.get(SPARK_API + 'applications/' + new_app['app_id'] + '/executors')
+
+#
+# TODO: we assume that the driver is the first entry in the list
+new_app['app_driver'] = new_app_executors.json()[0]['hostPort']
+
+# Create application entry in the database
+print('Registering new application in the Profile Warehouse...')
+
+#
+# TODO: once the application is completed, build the DAG. How to know about it?
