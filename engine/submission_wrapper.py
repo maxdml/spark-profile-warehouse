@@ -25,6 +25,9 @@ import requests
 import subprocess
 from pw_utils import *
 
+sys.path.append(os.path.abspath(os.getcwd() + '/../database'))
+from pwh_db import *
+
 # This script job is not to check spark submit parameters
 if len(sys.argv) < 2:
     sample  = '--class org.apache.spark.examples.SparkPi --master local[8]'
@@ -47,6 +50,7 @@ SPARK_HOME   = config['spark_home']
 SPARK_SUBMIT = SPARK_HOME + '/bin/spark-submit'
 SPARK_MASTER = config['spark_master']
 SPARK_API    = SPARK_MASTER + '/api/v1/'
+APP_STDOUT   = config['app_stdout']
 
 utils  = pw_utils()
 params = utils.flattenList(sys.argv[1:])
@@ -54,11 +58,10 @@ cmd = [SPARK_SUBMIT] + params
 
 # Run spark-submit in the background
 # TODO: later on we might want to allow remote runs by using the API
-output = open('/tmp/toto', 'w+')
+app_output = open(APP_STDOUT, 'w+')
 print('Submitting Spark application...')
-p = subprocess.Popen(cmd, stdout=output, stderr=subprocess.STDOUT)
-output.close()
-#q = subprocess.call(['cat', '/home/max/monitor.html'])
+p = subprocess.Popen(cmd, stdout=app_output, stderr=subprocess.STDOUT)
+app_output.close()
 
 # Query the API to retrieve new application's details
 print('Retrieving application details...')
@@ -66,7 +69,7 @@ applications = requests.get(SPARK_API + 'applications')
 
 #
 # TODO: We actually use a very naive way of retrieving an application (pick the last one which
-#       name match the submitted class name.
+#       name match the submitted class name).
 
 #
 # TODO: implement https://issues.apache.org/jira/browse/SPARK-16122 to get environment through API
