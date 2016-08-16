@@ -1,0 +1,6 @@
+{"spark_home" : "/path/to/spark/installation"}
+{"spark_master" : "http://host:port"}
+{"app_stdout" : "/path/to/spark_submit/stdout"}
+{"pwh_host" : "host"}
+{"pwh_user" : "user"}
+{"pwh_pwd" : "password"}
