@@ -15,6 +15,8 @@
 
 # Copyright (C) <2016>  <Henri Maxime Demoulin>
 
+import sys
+import os
 import peewee
 from peewee import *
 
@@ -22,7 +24,10 @@ sys.path.append(os.path.abspath(os.getcwd() + '/../engine'))
 
 from pw_utils import *
 
-# TODO load config
-#PWH_HOST     = config['pwh_host']
-#PWH_USER     = config['pwh_user']
-#PWH_PWD      = config['pwh_pwd']
+utils = pw_utils()
+
+config = utils.loadConfig()
+
+PWH_HOST     = config['pwh_host']
+PWH_USER     = config['pwh_user']
+PWH_PWD      = config['pwh_pwd']

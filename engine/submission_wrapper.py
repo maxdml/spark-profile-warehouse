@@ -35,16 +35,10 @@ if len(sys.argv) < 2:
     print('Usage: python submission_wrapper.py ' + sample)
     exit(1)
 
+utils  = pw_utils()
+
 # Load configuration
-config    = {}
-conf_file = os.getcwd() + '/config.json'
-conf_desc = open(conf_file, 'r')
-
-for line in conf_desc.readlines():
-    j = json.loads(line)
-    config.update(j)
-
-conf_desc.close()
+config    = utils.loadConfig()
 
 SPARK_HOME   = config['spark_home']
 SPARK_SUBMIT = SPARK_HOME + '/bin/spark-submit'
@@ -52,7 +46,6 @@ SPARK_MASTER = config['spark_master']
 SPARK_API    = SPARK_MASTER + '/api/v1/'
 APP_STDOUT   = config['app_stdout']
 
-utils  = pw_utils()
 params = utils.flattenList(sys.argv[1:])
 cmd = [SPARK_SUBMIT] + params
 

@@ -16,9 +16,11 @@
 # Copyright (C) <2016>  <Henri Maxime Demoulin>
 
 import sys
+import os
+import json
 
 class pw_utils:
-    
+
     def __repr__(self):
         tools  = 'Available tools: \n'
         tools += 'flattenList(listObject)'
@@ -45,3 +47,23 @@ class pw_utils:
                     return [listObject[0]] + self.flattenList(listObject[1:])
             else:
                 return []
+
+    """
+    Load configuration from local config.json file
+    :return config, a dictionnary containing configuration
+    """
+    def loadConfig(self):
+        config    = {}
+        conf_file = os.getcwd() + '/config.json'
+        try:
+            conf_desc = open(conf_file, 'r')
+        except OSError as e:
+            print(e)
+            raise
+
+        for line in conf_desc.readlines():
+            j = json.loads(line)
+            config.update(j)
+
+        conf_desc.close()
+        return config
