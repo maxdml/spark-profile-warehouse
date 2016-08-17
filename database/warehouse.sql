@@ -76,18 +76,16 @@ DROP TABLE IF EXISTS `Application`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Application` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `app_id` int(11) DEFAULT NULL,
-  `app_name` char(100) DEFAULT NULL,
+  `app_id` int(11) NOT NULL,
+  `app_name` char(100) NOT NULL,
   `app_env` text,
-  `app_submit` text,
+  `app_submit` text NOT NULL,
   `app_dag` text,
-  `app_master` int(11) DEFAULT NULL,
+  `app_master` char(100) NOT NULL,
   `app_driver` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `app_master` (`app_master`),
   KEY `app_driver` (`app_driver`),
-  CONSTRAINT `Application_ibfk_1` FOREIGN KEY (`app_master`) REFERENCES `Container` (`id`),
-  CONSTRAINT `Application_ibfk_2` FOREIGN KEY (`app_driver`) REFERENCES `Container` (`id`)
+  CONSTRAINT `Application_ibfk_1` FOREIGN KEY (`app_driver`) REFERENCES `Container` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,15 +109,14 @@ CREATE TABLE `Container` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `container_id` int(11) DEFAULT NULL,
   `container_host` char(100) DEFAULT NULL,
-  `container_type` char(100) DEFAULT NULL,
   `container_cores` int(11) DEFAULT NULL,
   `container_mem` int(11) DEFAULT NULL,
   `app_id` int(11) DEFAULT NULL,
   `container_env` text,
   `container_yarn_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `app_id` (`app_id`),
-  CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`)
+  PRIMARY KEY (`id`)
+/*  KEY `app_id` (`app_id`),
+  CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`) */
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
