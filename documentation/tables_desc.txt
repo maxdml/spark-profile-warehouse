@@ -2,24 +2,40 @@
 | Field      | Type      | Null | Key | Default | Extra          |
 +------------+-----------+------+-----+---------+----------------+
 | id         | int(11)   | NO   | PRI | NULL    | auto_increment |
-| app_id     | int(11)   | YES  |     | NULL    |                |
-| app_name   | char(100) | YES  |     | NULL    |                |
+| app_id     | int(11)   | NO   |     | NULL    |                |
+| app_name   | char(100) | NO   |     | NULL    |                |
 | app_env    | text      | YES  |     | NULL    |                |
-| app_submit | text      | YES  |     | NULL    |                |
+| app_submit | text      | NO   |     | NULL    |                |
 | app_dag    | text      | YES  |     | NULL    |                |
-| app_master | int(11)   | YES  | MUL | NULL    |                |
+| app_master | char(100) | NO   |     | NULL    |                |
 | app_driver | int(11)   | YES  | MUL | NULL    |                |
 +------------+-----------+------+-----+---------+----------------+
 
-
-Sources:
-app_id: /application?status=running
-app_submit: modified ./bin/spark-submit.sh (to implement)
+app_id: /applications?status=running
+app_submit: submission wrapper
 app_name: /application/[app_id]/
 app_env: /application/[app_id]/environment (to implement)
-app_dag: hook from hacked Spark
-app_master: from environment (master is the node where the cluster manager runs)
-app_driver: from environment (driver is the node where the program executing application's main() is
-            executing)
+app_dag: build from API after app is done running 
+app_master: from submit command (master is the node where the cluster manager runs)
+app_driver: /application/[app_id]/executors/
 
++-------------------+-----------+------+-----+---------+----------------+
+| Field             | Type      | Null | Key | Default | Extra          |
++-------------------+-----------+------+-----+---------+----------------+
+| id                | int(11)   | NO   | PRI | NULL    | auto_increment |
+| container_id      | int(11)   | YES  |     | NULL    |                |
+| container_host    | char(100) | YES  |     | NULL    |                |
+| container_cores   | int(11)   | YES  |     | NULL    |                |
+| container_mem     | int(11)   | YES  |     | NULL    |                |
+| app_id            | int(11)   | YES  |     | NULL    |                |
+| container_env     | text      | YES  |     | NULL    |                |
+| container_yarn_id | int(11)   | YES  |     | NULL    |                |
++-------------------+-----------+------+-----+---------+----------------+
 
+container_id: Either the executor id, or "driver" for the driver. /application/[app_id]/executors/
+container_host: host:port. /application/[app_id]/executors/
+container_cotes:
+container_mem:
+app_id: /applications
+container_env: from the node manager logs
+container_yarn_id: node manager id (?)
