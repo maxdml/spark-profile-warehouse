@@ -15,9 +15,6 @@
 
 # Copyright (C) <2016>  <Henri Maxime Demoulin>
 
-#
-# TODO: Handle errors with try catch when needed / worthy (performance wise)
-
 import sys
 import os
 import json
@@ -26,7 +23,7 @@ import subprocess
 from pw_utils import *
 
 sys.path.append(os.path.abspath(os.getcwd() + '/../database'))
-from pwh_db import *
+from pw_db import *
 
 # This script job is not to check spark submit parameters
 if len(sys.argv) < 2:
@@ -36,6 +33,7 @@ if len(sys.argv) < 2:
     exit(1)
 
 utils  = pw_utils()
+pw_db = pw_db()
 
 # Load configuration
 config    = utils.loadConfig()
@@ -78,9 +76,12 @@ new_app_executors = requests.get(SPARK_API + 'applications/' + new_app['app_id']
 #
 # TODO: we assume that the driver is the first entry in the list
 new_app['app_driver'] = new_app_executors.json()[0]['hostPort']
+# TODO find out which field is the allocated memory per core
+# TODO find out which field is the allocated #cores for the driver
 
 # Create application entry in the database
 print('Registering new application in the Profile Warehouse...')
+pw_db.registerApp(new_app)
 
 #
-# TODO: once the application is completed, build the DAG. How to know about it?
+# TODO: once the application is completed, build the DAG. How to know about completion?
