@@ -1,4 +1,4 @@
-#/usr/bin/python 
+#/usr/bin/python
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ class pw_db:
         self.config = self.utils.loadConfig()
 
         # hardcoded database name
-        self.PW_DB   = 'warehouse' 
+        self.PW_DB   = 'warehouse'
         self.PW_HOST = self.config['pw_host']
         self.PW_USER = self.config['pw_user']
         self.PW_PWD  = self.config['pw_pwd']
@@ -54,16 +54,17 @@ class pw_db:
             print(e)
             raise
 
-        application = Application.create(
-            app_id     = app_info['app_id'],
+        application = Application(
+            appid     = app_info['app_id'],
             app_name   = app_info['app_name'],
             app_submit = app_info['app_submit'],
             app_master = app_info['app_master'],
         )
+        application.save()
 
         # Also create containers entry for driver
         driver = Container.create(
-            app_id          = app_info['app_id'],
+            appid          = application.id,
             container_host  = app_info['app_driver'],
             #TODO: find default #cores and source for mem
             #container_cores = app_info['app_driver_cores'] if app_info['app_driver_cores'] else 1,
@@ -71,9 +72,7 @@ class pw_db:
         )
 
         # update Application with driver's container ID
-        print(driver.get(driver.app_id == app_info['app_id']))
-#        driver_id = driver.get(driver.app_id == app_info['app_id'])
-#        application.app_driver = driver_id
-#        application.save()
+        application.app_driver = driver.id
+        application.save()
 
         self.db.close()

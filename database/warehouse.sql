@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS `Application`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Application` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `appid` int(11) NOT NULL,
+  `appid` char(100) NOT NULL,
   `app_name` char(100) NOT NULL,
   `app_env` text,
   `app_submit` text NOT NULL,
