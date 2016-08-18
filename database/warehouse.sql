@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `App_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `App_event` (
-  `app_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  KEY `app_id` (`app_id`),
-  KEY `event_id` (`event_id`),
-  CONSTRAINT `App_event_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`),
-  CONSTRAINT `App_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `Event` (`id`)
+  `appid` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
+  KEY `appid` (`appid`),
+  KEY `eventid` (`eventid`),
+  CONSTRAINT `App_event_ibfk_1` FOREIGN KEY (`appid`) REFERENCES `Application` (`id`),
+  CONSTRAINT `App_event_ibfk_2` FOREIGN KEY (`eventid`) REFERENCES `Event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,12 +49,12 @@ DROP TABLE IF EXISTS `App_metric`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `App_metric` (
-  `app_id` int(11) DEFAULT NULL,
-  `metric_id` int(11) DEFAULT NULL,
-  KEY `app_id` (`app_id`),
-  KEY `metric_id` (`metric_id`),
-  CONSTRAINT `App_metric_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`),
-  CONSTRAINT `App_metric_ibfk_2` FOREIGN KEY (`metric_id`) REFERENCES `Metric` (`id`)
+  `appid` int(11) DEFAULT NULL,
+  `metricid` int(11) DEFAULT NULL,
+  KEY `appid` (`appid`),
+  KEY `metricid` (`metricid`),
+  CONSTRAINT `App_metric_ibfk_1` FOREIGN KEY (`appid`) REFERENCES `Application` (`id`),
+  CONSTRAINT `App_metric_ibfk_2` FOREIGN KEY (`metricid`) REFERENCES `Metric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS `Application`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Application` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `app_id` int(11) NOT NULL,
+  `appid` int(11) NOT NULL,
   `app_name` char(100) NOT NULL,
   `app_env` text,
   `app_submit` text NOT NULL,
@@ -107,16 +107,16 @@ DROP TABLE IF EXISTS `Container`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Container` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `container_id` int(11) DEFAULT NULL,
+  `containerid` int(11) DEFAULT NULL,
   `container_host` char(100) DEFAULT NULL,
   `container_cores` int(11) DEFAULT NULL,
   `container_mem` int(11) DEFAULT NULL,
-  `app_id` int(11) DEFAULT NULL,
+  `appid` int(11) DEFAULT NULL,
   `container_env` text,
-  `container_yarn_id` int(11) DEFAULT NULL,
+  `container_yarnid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-/*  KEY `app_id` (`app_id`),
-  CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`) */
+/*  KEY `appid` (`appid`),
+  CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`appid`) REFERENCES `Application` (`id`) */
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -137,12 +137,12 @@ DROP TABLE IF EXISTS `Container_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Container_event` (
-  `cont_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  KEY `cont_id` (`cont_id`),
-  KEY `event_id` (`event_id`),
-  CONSTRAINT `Container_event_ibfk_1` FOREIGN KEY (`cont_id`) REFERENCES `Container` (`id`),
-  CONSTRAINT `Container_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `Event` (`id`)
+  `contid` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
+  KEY `contid` (`contid`),
+  KEY `eventid` (`eventid`),
+  CONSTRAINT `Container_event_ibfk_1` FOREIGN KEY (`contid`) REFERENCES `Container` (`id`),
+  CONSTRAINT `Container_event_ibfk_2` FOREIGN KEY (`eventid`) REFERENCES `Event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,12 +163,12 @@ DROP TABLE IF EXISTS `Container_metric`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Container_metric` (
-  `cont_id` int(11) DEFAULT NULL,
-  `metric_id` int(11) DEFAULT NULL,
-  KEY `cont_id` (`cont_id`),
-  KEY `metric_id` (`metric_id`),
-  CONSTRAINT `Container_metric_ibfk_1` FOREIGN KEY (`cont_id`) REFERENCES `Container` (`id`),
-  CONSTRAINT `Container_metric_ibfk_2` FOREIGN KEY (`metric_id`) REFERENCES `Metric` (`id`)
+  `contid` int(11) DEFAULT NULL,
+  `metricid` int(11) DEFAULT NULL,
+  KEY `contid` (`contid`),
+  KEY `metricid` (`metricid`),
+  CONSTRAINT `Container_metric_ibfk_1` FOREIGN KEY (`contid`) REFERENCES `Container` (`id`),
+  CONSTRAINT `Container_metric_ibfk_2` FOREIGN KEY (`metricid`) REFERENCES `Metric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,7 +190,7 @@ DROP TABLE IF EXISTS `Event`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
   `event_type` char(100) DEFAULT NULL,
   `event_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `event_details` text,
@@ -217,14 +217,14 @@ DROP TABLE IF EXISTS `Job`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Job` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) DEFAULT NULL,
-  `app_id` int(11) DEFAULT NULL,
+  `jobid` int(11) DEFAULT NULL,
+  `appid` int(11) DEFAULT NULL,
   `job_name` char(100) DEFAULT NULL,
   `job_dag` text,
   `job_env` text,
   PRIMARY KEY (`id`),
-  KEY `app_id` (`app_id`),
-  CONSTRAINT `Job_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`)
+  KEY `appid` (`appid`),
+  CONSTRAINT `Job_ibfk_1` FOREIGN KEY (`appid`) REFERENCES `Application` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -245,12 +245,12 @@ DROP TABLE IF EXISTS `Job_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Job_event` (
-  `job_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  KEY `job_id` (`job_id`),
-  KEY `event_id` (`event_id`),
-  CONSTRAINT `Job_event_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `Job` (`id`),
-  CONSTRAINT `Job_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `Event` (`id`)
+  `jobid` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
+  KEY `jobid` (`jobid`),
+  KEY `eventid` (`eventid`),
+  CONSTRAINT `Job_event_ibfk_1` FOREIGN KEY (`jobid`) REFERENCES `Job` (`id`),
+  CONSTRAINT `Job_event_ibfk_2` FOREIGN KEY (`eventid`) REFERENCES `Event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -271,12 +271,12 @@ DROP TABLE IF EXISTS `Job_metric`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Job_metric` (
-  `job_id` int(11) DEFAULT NULL,
-  `metric_id` int(11) DEFAULT NULL,
-  KEY `job_id` (`job_id`),
-  KEY `metric_id` (`metric_id`),
-  CONSTRAINT `Job_metric_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `Job` (`id`),
-  CONSTRAINT `Job_metric_ibfk_2` FOREIGN KEY (`metric_id`) REFERENCES `Metric` (`id`)
+  `jobid` int(11) DEFAULT NULL,
+  `metricid` int(11) DEFAULT NULL,
+  KEY `jobid` (`jobid`),
+  KEY `metricid` (`metricid`),
+  CONSTRAINT `Job_metric_ibfk_1` FOREIGN KEY (`jobid`) REFERENCES `Job` (`id`),
+  CONSTRAINT `Job_metric_ibfk_2` FOREIGN KEY (`metricid`) REFERENCES `Metric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -298,7 +298,7 @@ DROP TABLE IF EXISTS `Metric`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Metric` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `metric_id` char(100) DEFAULT NULL,
+  `metricid` char(100) DEFAULT NULL,
   `metric_name` char(100) DEFAULT NULL,
   `metric_value` char(100) DEFAULT NULL,
   `metric_type` char(100) DEFAULT NULL,
@@ -326,7 +326,7 @@ DROP TABLE IF EXISTS `Pnode`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Pnode` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pnode_id` int(11) DEFAULT NULL,
+  `pnodeid` int(11) DEFAULT NULL,
   `pnode_hostname` char(100) DEFAULT NULL,
   `pnode_ip` char(100) DEFAULT NULL,
   `pnode_MAC` char(100) DEFAULT NULL,
@@ -353,12 +353,12 @@ DROP TABLE IF EXISTS `Pnode_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Pnode_event` (
-  `pnode_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  KEY `pnode_id` (`pnode_id`),
-  KEY `event_id` (`event_id`),
-  CONSTRAINT `Pnode_event_ibfk_1` FOREIGN KEY (`pnode_id`) REFERENCES `Pnode` (`id`),
-  CONSTRAINT `Pnode_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `Event` (`id`)
+  `pnodeid` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
+  KEY `pnodeid` (`pnodeid`),
+  KEY `eventid` (`eventid`),
+  CONSTRAINT `Pnode_event_ibfk_1` FOREIGN KEY (`pnodeid`) REFERENCES `Pnode` (`id`),
+  CONSTRAINT `Pnode_event_ibfk_2` FOREIGN KEY (`eventid`) REFERENCES `Event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -379,12 +379,12 @@ DROP TABLE IF EXISTS `Pnode_metric`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Pnode_metric` (
-  `pnode_id` int(11) DEFAULT NULL,
-  `metric_id` int(11) DEFAULT NULL,
-  KEY `pnode_id` (`pnode_id`),
-  KEY `metric_id` (`metric_id`),
-  CONSTRAINT `Pnode_metric_ibfk_1` FOREIGN KEY (`pnode_id`) REFERENCES `Pnode` (`id`),
-  CONSTRAINT `Pnode_metric_ibfk_2` FOREIGN KEY (`metric_id`) REFERENCES `Metric` (`id`)
+  `pnodeid` int(11) DEFAULT NULL,
+  `metricid` int(11) DEFAULT NULL,
+  KEY `pnodeid` (`pnodeid`),
+  KEY `metricid` (`metricid`),
+  CONSTRAINT `Pnode_metric_ibfk_1` FOREIGN KEY (`pnodeid`) REFERENCES `Pnode` (`id`),
+  CONSTRAINT `Pnode_metric_ibfk_2` FOREIGN KEY (`metricid`) REFERENCES `Metric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -406,17 +406,17 @@ DROP TABLE IF EXISTS `Stage`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Stage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) DEFAULT NULL,
-  `app_id` int(11) DEFAULT NULL,
-  `stage_id` int(11) DEFAULT NULL,
+  `jobid` int(11) DEFAULT NULL,
+  `appid` int(11) DEFAULT NULL,
+  `stageid` int(11) DEFAULT NULL,
   `stage_name` char(100) DEFAULT NULL,
   `stage_dag` text,
   `stage_env` text,
   PRIMARY KEY (`id`),
-  KEY `job_id` (`job_id`),
-  KEY `app_id` (`app_id`),
-  CONSTRAINT `Stage_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `Job` (`id`),
-  CONSTRAINT `Stage_ibfk_2` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`)
+  KEY `jobid` (`jobid`),
+  KEY `appid` (`appid`),
+  CONSTRAINT `Stage_ibfk_1` FOREIGN KEY (`jobid`) REFERENCES `Job` (`id`),
+  CONSTRAINT `Stage_ibfk_2` FOREIGN KEY (`appid`) REFERENCES `Application` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -437,12 +437,12 @@ DROP TABLE IF EXISTS `Stage_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Stage_event` (
-  `stage_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  KEY `stage_id` (`stage_id`),
-  KEY `event_id` (`event_id`),
-  CONSTRAINT `Stage_event_ibfk_1` FOREIGN KEY (`stage_id`) REFERENCES `Stage` (`id`),
-  CONSTRAINT `Stage_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `Event` (`id`)
+  `stageid` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
+  KEY `stageid` (`stageid`),
+  KEY `eventid` (`eventid`),
+  CONSTRAINT `Stage_event_ibfk_1` FOREIGN KEY (`stageid`) REFERENCES `Stage` (`id`),
+  CONSTRAINT `Stage_event_ibfk_2` FOREIGN KEY (`eventid`) REFERENCES `Event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -463,12 +463,12 @@ DROP TABLE IF EXISTS `Stage_metric`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Stage_metric` (
-  `stage_id` int(11) DEFAULT NULL,
-  `metric_id` int(11) DEFAULT NULL,
-  KEY `stage_id` (`stage_id`),
-  KEY `metric_id` (`metric_id`),
-  CONSTRAINT `Stage_metric_ibfk_1` FOREIGN KEY (`stage_id`) REFERENCES `Stage` (`id`),
-  CONSTRAINT `Stage_metric_ibfk_2` FOREIGN KEY (`metric_id`) REFERENCES `Metric` (`id`)
+  `stageid` int(11) DEFAULT NULL,
+  `metricid` int(11) DEFAULT NULL,
+  KEY `stageid` (`stageid`),
+  KEY `metricid` (`metricid`),
+  CONSTRAINT `Stage_metric_ibfk_1` FOREIGN KEY (`stageid`) REFERENCES `Stage` (`id`),
+  CONSTRAINT `Stage_metric_ibfk_2` FOREIGN KEY (`metricid`) REFERENCES `Metric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -490,22 +490,22 @@ DROP TABLE IF EXISTS `Task`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stage_id` int(11) DEFAULT NULL,
-  `job_id` int(11) DEFAULT NULL,
-  `app_id` int(11) DEFAULT NULL,
+  `stageid` int(11) DEFAULT NULL,
+  `jobid` int(11) DEFAULT NULL,
+  `appid` int(11) DEFAULT NULL,
   `task_name` char(100) DEFAULT NULL,
   `task_attempt` int(11) DEFAULT NULL,
-  `container_id` int(11) DEFAULT NULL,
+  `containerid` int(11) DEFAULT NULL,
   `task_env` text,
   PRIMARY KEY (`id`),
-  KEY `stage_id` (`stage_id`),
-  KEY `job_id` (`job_id`),
-  KEY `app_id` (`app_id`),
-  KEY `container_id` (`container_id`),
-  CONSTRAINT `Task_ibfk_1` FOREIGN KEY (`stage_id`) REFERENCES `Stage` (`id`),
-  CONSTRAINT `Task_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `Job` (`id`),
-  CONSTRAINT `Task_ibfk_3` FOREIGN KEY (`app_id`) REFERENCES `Application` (`id`),
-  CONSTRAINT `Task_ibfk_4` FOREIGN KEY (`container_id`) REFERENCES `Container` (`id`)
+  KEY `stageid` (`stageid`),
+  KEY `jobid` (`jobid`),
+  KEY `appid` (`appid`),
+  KEY `containerid` (`containerid`),
+  CONSTRAINT `Task_ibfk_1` FOREIGN KEY (`stageid`) REFERENCES `Stage` (`id`),
+  CONSTRAINT `Task_ibfk_2` FOREIGN KEY (`jobid`) REFERENCES `Job` (`id`),
+  CONSTRAINT `Task_ibfk_3` FOREIGN KEY (`appid`) REFERENCES `Application` (`id`),
+  CONSTRAINT `Task_ibfk_4` FOREIGN KEY (`containerid`) REFERENCES `Container` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -526,12 +526,12 @@ DROP TABLE IF EXISTS `Task_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Task_event` (
-  `task_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  KEY `task_id` (`task_id`),
-  KEY `event_id` (`event_id`),
-  CONSTRAINT `Task_event_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `Task` (`id`),
-  CONSTRAINT `Task_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `Event` (`id`)
+  `taskid` int(11) DEFAULT NULL,
+  `eventid` int(11) DEFAULT NULL,
+  KEY `taskid` (`taskid`),
+  KEY `eventid` (`eventid`),
+  CONSTRAINT `Task_event_ibfk_1` FOREIGN KEY (`taskid`) REFERENCES `Task` (`id`),
+  CONSTRAINT `Task_event_ibfk_2` FOREIGN KEY (`eventid`) REFERENCES `Event` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -552,12 +552,12 @@ DROP TABLE IF EXISTS `Task_metric`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Task_metric` (
-  `task_id` int(11) DEFAULT NULL,
-  `metric_id` int(11) DEFAULT NULL,
-  KEY `task_id` (`task_id`),
-  KEY `metric_id` (`metric_id`),
-  CONSTRAINT `Task_metric_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `Task` (`id`),
-  CONSTRAINT `Task_metric_ibfk_2` FOREIGN KEY (`metric_id`) REFERENCES `Metric` (`id`)
+  `taskid` int(11) DEFAULT NULL,
+  `metricid` int(11) DEFAULT NULL,
+  KEY `taskid` (`taskid`),
+  KEY `metricid` (`metricid`),
+  CONSTRAINT `Task_metric_ibfk_1` FOREIGN KEY (`taskid`) REFERENCES `Task` (`id`),
+  CONSTRAINT `Task_metric_ibfk_2` FOREIGN KEY (`metricid`) REFERENCES `Metric` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

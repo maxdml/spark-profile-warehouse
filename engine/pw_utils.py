@@ -57,6 +57,7 @@ class pw_utils:
         conf_file = os.getcwd() + '/config.json'
         try:
             conf_desc = open(conf_file, 'r')
+        # Is OSError enough to catch all open() related errors?
         except OSError as e:
             print(e)
             raise
