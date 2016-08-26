@@ -1,8 +1,9 @@
+Application
 +------------+-----------+------+-----+---------+----------------+
 | Field      | Type      | Null | Key | Default | Extra          |
 +------------+-----------+------+-----+---------+----------------+
 | id         | int(11)   | NO   | PRI | NULL    | auto_increment |
-| app_id     | int(11)   | NO   |     | NULL    |                |
+| appid      | int(11)   | NO   |     | NULL    |                |
 | app_name   | char(100) | NO   |     | NULL    |                |
 | app_env    | text      | YES  |     | NULL    |                |
 | app_submit | text      | NO   |     | NULL    |                |
@@ -19,17 +20,18 @@ app_dag: build from API after app is done running
 app_master: from submit command (master is the node where the cluster manager runs)
 app_driver: /application/[app_id]/executors/
 
+Container
 +-------------------+-----------+------+-----+---------+----------------+
 | Field             | Type      | Null | Key | Default | Extra          |
 +-------------------+-----------+------+-----+---------+----------------+
 | id                | int(11)   | NO   | PRI | NULL    | auto_increment |
-| container_id      | int(11)   | YES  |     | NULL    |                |
+| containerid       | int(11)   | YES  |     | NULL    |                |
 | container_host    | char(100) | YES  |     | NULL    |                |
 | container_cores   | int(11)   | YES  |     | NULL    |                |
 | container_mem     | int(11)   | YES  |     | NULL    |                |
-| app_id            | int(11)   | YES  |     | NULL    |                |
+| appid             | int(11)   | YES  |     | NULL    |                |
 | container_env     | text      | YES  |     | NULL    |                |
-| container_yarn_id | int(11)   | YES  |     | NULL    |                |
+| container_yarnid  | int(11)   | YES  |     | NULL    |                |
 +-------------------+-----------+------+-----+---------+----------------+
 
 container_id: Either the executor id, or "driver" for the driver. /application/[app_id]/executors/
@@ -39,3 +41,18 @@ container_mem:
 app_id: /applications
 container_env: from the node manager logs
 container_yarn_id: node manager id (?)
+
+Metric
++---------------+-----------+------+-----+---------+----------------+
+| Field         | Type      | Null | Key | Default | Extra          |
++---------------+-----------+------+-----+---------+----------------+
+| id            | int(11)   | NO   | PRI | NULL    | auto_increment |
+| metricid      | char(100) | YES  |     | NULL    |                |
+| metric_name   | char(100) | YES  |     | NULL    |                |
+| metric_value  | char(100) | YES  |     | NULL    |                |
+| metric_type   | char(100) | YES  |     | NULL    |                |
+| metric_source | char(100) | YES  |     | NULL    |                |
+| metric_unit   | char(100) | YES  |     | NULL    |                |
++---------------+-----------+------+-----+---------+----------------+
+
+

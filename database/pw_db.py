@@ -35,7 +35,7 @@ class pw_db:
         self.config = self.utils.loadConfig()
 
         # hardcoded database name
-        self.PW_DB   = 'warehouse'
+        self.PW_DB   = self.config['pw_dn_name']
         self.PW_HOST = self.config['pw_host']
         self.PW_USER = self.config['pw_user']
         self.PW_PWD  = self.config['pw_pwd']
@@ -55,7 +55,7 @@ class pw_db:
             raise
 
         application = Application(
-            appid     = app_info['app_id'],
+            appid      = app_info['app_id'],
             app_name   = app_info['app_name'],
             app_submit = app_info['app_submit'],
             app_master = app_info['app_master'],
