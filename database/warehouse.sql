@@ -298,7 +298,6 @@ DROP TABLE IF EXISTS `Metric`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Metric` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `metricid` char(100) DEFAULT NULL,
   `metric_name` char(100) DEFAULT NULL,
   `metric_value` char(100) DEFAULT NULL,
   `metric_type` char(100) DEFAULT NULL,
