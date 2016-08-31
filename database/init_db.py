@@ -21,7 +21,7 @@ import subprocess
 from peewee import *
 from models import *
 
-sys.path.append(os.path.abspath(os.getcwd() + '/../engine'))
+sys.path.append(os.path.dirname(__file__) + '/../engine')
 
 from pw_utils import *
 

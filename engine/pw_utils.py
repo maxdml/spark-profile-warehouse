@@ -54,7 +54,7 @@ class pw_utils:
     """
     def loadConfig(self):
         config    = {}
-        conf_file = os.getcwd() + '/config.json'
+        conf_file = os.path.dirname(__file__) + '/../config.json'
         try:
             conf_desc = open(conf_file, 'r')
         # Is OSError enough to catch all open() related errors?
