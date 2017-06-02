@@ -1,6 +1,8 @@
 # spark-profile-warehouse
 A profile database for Apache Spark applications
 
+##NOTE: this project is not currently active. I plan to work back on it later in during my Ph.D but have other priorities right now.
+
 ## Description
 We aim to build a database of Spark applications' profiles. We store metrics related to application execution (containers metrics, application metrics) which can be related with OS time series (cpu, memory, etc), as well as applications' DAG.
 The database exposes an API which allows users to:
